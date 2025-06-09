@@ -1,9 +1,10 @@
-import { TranslationKeyManager } from './components/TranslationKeyManager'
-import { ProjectSelector } from './components/ProjectSelector'
-import { LanguageSelector } from './components/LanguageSelector'
-import { UserProfile } from './components/UserProfile'
-import { Toolbar } from './components/Toolbar'
-import { TranslationStats } from './components/TranslationStats'
+import { TranslationKeyManager } from "./components/TranslationKeyManager";
+import { ProjectSelector } from "./components/ProjectSelector";
+import { LanguageSelector } from "./components/LanguageSelector";
+import { UserProfile } from "./components/UserProfile";
+import { Toolbar } from "./components/Toolbar";
+import { TranslationStats } from "./components/TranslationStats";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -12,12 +13,14 @@ export default function Home() {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">H</span>
-              </div>
-              <span className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                Helium
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Helium Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
+              <span className="text-xl font-semibold text-white">Helium</span>
             </div>
             <nav className="flex items-center space-x-4">
               <UserProfile />
@@ -63,7 +66,10 @@ export default function Home() {
         <div className="container mx-auto px-6 lg:px-8 py-6 text-center">
           <div className="text-sm text-slate-600 dark:text-slate-400">
             <p className="font-medium">Built by Ahmed Hossam</p>
-            <p className="mt-1">&copy; {new Date().getFullYear()} Helium Translation Management System</p>
+            <p className="mt-1">
+              &copy; {new Date().getFullYear()} Helium Translation Management
+              System
+            </p>
           </div>
         </div>
       </footer>
