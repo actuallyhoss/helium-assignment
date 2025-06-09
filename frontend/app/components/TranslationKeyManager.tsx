@@ -1,14 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslationKeys, useDeleteTranslationKey } from '../../lib/hooks'
+import { useTranslationKeys } from '../../lib/hooks'
 import { useTranslationStore } from '../../lib/store'
 import { TranslationEditor } from './TranslationEditor'
+import { TranslationKey } from '../../lib/types'
 
-export function TranslationKeyManager() {
-  const { selectedProject, searchQuery, selectedCategory, selectedLanguages, filteredKeys, deleteTranslationKey } = useTranslationStore()
+interface TranslationKeyManagerProps {
+  onDeleteKey: (key: TranslationKey) => void
+}
+
+export function TranslationKeyManager({ onDeleteKey }: TranslationKeyManagerProps) {
+  const { selectedProject, searchQuery, selectedCategory, selectedLanguages, filteredKeys } = useTranslationStore()
   const { data: translationKeys, isLoading, error } = useTranslationKeys(selectedProject?.id)
-  const deleteMutation = useDeleteTranslationKey()
   const [editingKeyId, setEditingKeyId] = useState<string | null>(null)
 
   const setTranslationKeys = useTranslationStore(state => state.setTranslationKeys)
@@ -35,15 +39,8 @@ export function TranslationKeyManager() {
 
   const displayKeys = filteredKeys()
 
-  const handleDelete = async (keyId: string) => {
-    if (confirm('Are you sure you want to delete this translation key?')) {
-      try {
-        await deleteMutation.mutateAsync(keyId)
-        deleteTranslationKey(keyId)
-      } catch (error) {
-        console.error('Failed to delete translation key:', error)
-      }
-    }
+  const handleDelete = (key: TranslationKey) => {
+    onDeleteKey(key)
   }
 
   return (
@@ -98,7 +95,7 @@ export function TranslationKeyManager() {
                     )}
                   </button>
                   <button
-                    onClick={() => handleDelete(key.id)}
+                    onClick={() => handleDelete(key)}
                     className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
                     title="Delete translation"
                   >
